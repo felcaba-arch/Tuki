@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🔥 Asado Tuki Fest 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--rojo:#e63012;
+--naranja:#ff6b1a;
+--negro:#0a0a0a;
+--gris:#1b1b1b;
+--blanco:#f5f0e8;
+--amarillo:#ffd23f;
+}
+
+/* RESET */
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Barlow',sans-serif;
+background:var(--negro);
+color:var(--blanco);
+overflow-x:hidden;
+}
+
+/* HERO */
+
+#hero{
+position:relative;
+height:100dvh;
+display:flex;
+align-items:flex-end;
+justify-content:center;
+overflow:hidden;
+}
+
+#hero video{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:.55;
+}
+
+.hero-overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(to bottom,rgba(0,0,0,.25),rgba(0,0,0,.95));
+}
+
+.hero-content{
+position:relative;
+z-index:2;
+text-align:center;
+padding:0 24px 70px;
+max-width:520px;
+}
+
+.hero-tag{
+background:var(--rojo);
+font-size:11px;
+letter-spacing:3px;
+padding:6px 14px;
+display:inline-block;
+margin-bottom:16px;
+}
+
+.hero-title{
+font-family:'Bebas Neue';
+font-size:clamp(64px,18vw,110px);
+line-height:.9;
+}
+
+.hero-title span{
+color:var(--naranja);
+display:block;
+}
+
+.hero-fecha{
+font-size:13px;
+letter-spacing:4px;
+margin:16px 0;
+}
+
+.countdown{
+font-size:14px;
+margin-bottom:12px;
+color:var(--amarillo);
+}
+
+.places{
+font-size:13px;
+color:var(--amarillo);
+margin-bottom:22px;
+}
+
+.btn-reservar{
+background:var(--rojo);
+border:none;
+padding:18px;
+font-family:'Bebas Neue';
+font-size:26px;
+width:100%;
+cursor:pointer;
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+position:fixed;
+right:16px;
+bottom:18px;
+background:#25d366;
+padding:14px 18px;
+border-radius:50px;
+color:white;
+text-decoration:none;
+display:none;
+z-index:50;
+}
+
+/* MODAL */
+
+#modal-overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.9);
+z-index:20;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+#modal-overlay.show{display:flex}
+
+.modal{
+background:var(--gris);
+border-radius:12px;
+width:100%;
+max-width:540px;
+overflow:hidden;
+}
+
+.modal-header{
+background:linear-gradient(135deg,var(--rojo),var(--naranja));
+padding:22px;
+font-family:'Bebas Neue';
+font-size:30px;
+text-align:center;
+}
+
+.modal-body{padding:20px}
+
+/* QUINCHO MAP */
+
+.grill{
+text-align:center;
+background:#111;
+padding:10px;
+margin-bottom:10px;
+}
+
+.seat-grid{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:8px;
+margin-bottom:20px;
+}
+
+.seat{
+background:#222;
+padding:12px;
+text-align:center;
+cursor:pointer;
+border-radius:6px;
+font-size:12px;
+}
+
+.seat.vip{background:#5a2a00}
+
+.seat.selected{outline:2px solid var(--amarillo)}
+
+.seat.reserved{
+background:#444;
+cursor:not-allowed;
+}
+
+/* METODOS */
+
+.metodos{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.metodo{
+background:#111;
+padding:14px;
+text-align:center;
+cursor:pointer;
+border:2px solid transparent;
+}
+
+.metodo.selected{border-color:var(--naranja)}
+
+.btn-pagar{
+width:100%;
+margin-top:20px;
+padding:16px;
+background:var(--rojo);
+border:none;
+font-family:'Bebas Neue';
+font-size:22px;
+cursor:pointer;
+}
+
+/* PROCESS */
+
+.processing{
+display:none;
+text-align:center;
+padding:40px;
+}
+
+.spinner{
+width:50px;
+height:50px;
+border:4px solid rgba(255,255,255,.1);
+border-top-color:var(--naranja);
+border-radius:50%;
+margin:auto;
+animation:spin .8s linear infinite;
+}
+
+.confirmado{
+display:none;
+text-align:center;
+padding:40px;
+}
+
+.ticket{
+font-family:'Bebas Neue';
+font-size:36px;
+color:var(--amarillo);
+margin-top:14px;
+}
+
+/* CONFETTI */
+
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+top:-10px;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh) rotate(720deg)}
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+
+/* ADMIN PANEL */
+
+#adminPanel{
+position:fixed;
+left:10px;
+bottom:10px;
+background:#111;
+padding:10px;
+font-size:12px;
+display:none;
+max-height:200px;
+overflow:auto;
+}
+
+</style>
+</head>
+
+<body>
+
+<section id="hero">
+
+<video id="heroVideo" autoplay muted loop playsinline preload="metadata">
+<source src="tuki.mp4" type="video/mp4">
+</video>
+
+<div class="hero-overlay"></div>
+
+<div class="hero-content">
+
+<span class="hero-tag">🔥 Evento Exclusivo</span>
+
+<h1 class="hero-title">Asado<span>Tuki Fest</span></h1>
+
+<p class="hero-fecha">Jueves 19h · Edición 2026</p>
+
+<div class="countdown" id="countdown"></div>
+
+<div class="places" id="places"></div>
+
+<button class="btn-reservar" onclick="abrirModal()">Elegir lugar</button>
+
+</div>
+
+</section>
+
+<a id="whatsappBtn" class="whatsapp" target="_blank">Enviar comprobante</a>
+
+<div id="modal-overlay">
+
+<div class="modal">
+
+<div class="modal-header">Elegí tu lugar</div>
+
+<div class="modal-body">
+
+<div class="grill">🔥 Parrilla</div>
+
+<div class="seat-grid" id="seatGrid"></div>
+
+<div id="precio"></div>
+
+<h3 style="margin-top:16px">Método de pago</h3>
+
+<div class="metodos">
+
+<div class="metodo" onclick="selectMetodo(this)">💳 Tarjeta</div>
+<div class="metodo" onclick="selectMetodo(this)">🏦 Transferencia</div>
+<div class="metodo" onclick="selectMetodo(this)">📱 Billetera</div>
+<div class="metodo" onclick="selectMetodo(this)">💵 Efectivo</div>
+
+</div>
+
+<button class="btn-pagar" onclick="procesar()">Confirmar reserva</button>
+
+</div>
+
+<div class="processing" id="processing">
+
+<div class="spinner"></div>
+<p>Procesando pago...</p>
+
+</div>
+
+<div class="confirmado" id="confirmado">
+
+<h2>¡Reservado!</h2>
+
+<p>Tu lugar está confirmado</p>
+
+<div class="ticket" id="ticket"></div>
+
+<button class="btn-pagar" onclick="cerrarModal()">Cerrar</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="adminPanel"></div>
+
+<script>
+
+/* VIDEO AUDIO */
+
+const video=document.getElementById("heroVideo")
+
+document.addEventListener("click",()=>{
+video.muted=false
+video.play()
+},{once:true})
+
+/* COUNTDOWN */
+
+const eventDate=new Date("2026-01-15T19:00:00")
+
+function updateCountdown(){
+
+const now=new Date()
+
+const diff=eventDate-now
+
+if(diff<0)return
+
+const d=Math.floor(diff/86400000)
+const h=Math.floor(diff/3600000)%24
+const m=Math.floor(diff/60000)%60
+
+document.getElementById("countdown").innerText=
+"⏳ "+d+" días "+h+"h "+m+"m para el asado"
+
+}
+
+setInterval(updateCountdown,1000)
+updateCountdown()
+
+/* SEATS */
+
+let totalSeats=36
+let reservedSeats=JSON.parse(localStorage.getItem("tukiSeats"))||[]
+
+document.getElementById("places").innerText=
+"🔥 "+(totalSeats-reservedSeats.length)+" lugares disponibles"
+
+const grid=document.getElementById("seatGrid")
+
+let selectedSeat=null
+let price=0
+
+for(let i=1;i<=36;i++){
+
+let seat=document.createElement("div")
+
+seat.className="seat"
+
+let row=Math.ceil(i/6)
+
+if(row<=2)seat.classList.add("vip")
+
+seat.innerText=i
+
+if(reservedSeats.includes(i))
+seat.classList.add("reserved")
+
+seat.onclick=()=>{
+
+if(seat.classList.contains("reserved"))return
+
+document.querySelectorAll(".seat")
+.forEach(s=>s.classList.remove("selected"))
+
+seat.classList.add("selected")
+
+selectedSeat=i
+
+price=row<=2?120000:80000
+
+document.getElementById("precio").innerText=
+"Precio: Gs "+price
+
+}
+
+grid.appendChild(seat)
+
+}
+
+/* MODAL */
+
+function abrirModal(){
+document.getElementById("modal-overlay").classList.add("show")
+}
+
+function cerrarModal(){
+document.getElementById("modal-overlay").classList.remove("show")
+}
+
+/* METODO */
+
+function selectMetodo(el){
+
+document.querySelectorAll(".metodo")
+.forEach(m=>m.classList.remove("selected"))
+
+el.classList.add("selected")
+
+}
+
+/* PROCESAR */
+
+function procesar(){
+
+if(!selectedSeat){
+alert("Elegí un lugar")
+return
+}
+
+document.querySelector(".modal-body").style.display="none"
+document.getElementById("processing").style.display="block"
+
+setTimeout(()=>{
+
+reservedSeats.push(selectedSeat)
+
+localStorage.setItem("tukiSeats",
+JSON.stringify(reservedSeats))
+
+document.getElementById("processing").style.display="none"
+document.getElementById("confirmado").style.display="block"
+
+const code="TK-"+Math.floor(Math.random()*9000+1000)
+
+document.getElementById("ticket").innerText="#"+code
+
+/* WHATSAPP */
+
+const msg=encodeURIComponent(
+"Hola! Reservé mi lugar en el Asado Tuki Fest. Código: "+code)
+
+const link=
+"https://wa.me/595971796725?text="+msg
+
+const btn=document.getElementById("whatsappBtn")
+
+btn.href=link
+btn.style.display="block"
+
+/* CONFETTI */
+
+for(let i=0;i<120;i++){
+
+let c=document.createElement("div")
+c.className="confetti"
+
+c.style.left=Math.random()*100+"%"
+
+c.style.background=
+["#ff6b1a","#ffd23f","#e63012"]
+[Math.floor(Math.random()*3)]
+
+document.body.appendChild(c)
+
+setTimeout(()=>c.remove(),3000)
+
+}
+
+/* ADMIN LOG */
+
+updateAdmin()
+
+},2000)
+
+}
+
+/* ADMIN PANEL */
+
+function updateAdmin(){
+
+const panel=document.getElementById("adminPanel")
+
+panel.innerHTML="<b>Reservas:</b><br>"+reservedSeats.join(", ")
+
+}
+
+/* SECRET KEY */
+
+document.addEventListener("keydown",e=>{
+
+if(e.ctrlKey&&e.key==="a"){
+
+const p=document.getElementById("adminPanel")
+
+p.style.display=p.style.display==="none"?"block":"none"
+
+}
+
+})
+
+updateAdmin()
+
+</script>
+
+</body>
+</html>
